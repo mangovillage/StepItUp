@@ -1,0 +1,39 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+issueTrackerURL = "https://github.com/spoorn/StepItUp/issues"
+license = "GPL-3.0"
+
+[[mods]]
+modId = "stepitup"
+version = "${version}"
+displayName = "StepItUp"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/step-it-up"
+authors = "spoorn"
+description = '''
+Step up blocks smoothly instead of Auto Jump
+'''
+logoFile = "icon.png"
+
+[[mixins]]
+config = "stepitup-common.mixins.json"
+
+[[dependencies.stepitup]]
+modId = "neoforge"
+mandatory = true
+versionRange = "[26.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.stepitup]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[26.2,26.3)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.stepitup]]
+modId = "cloth_config"
+mandatory = true
+versionRange = "[26.2,)"
+ordering = "NONE"
+side = "CLIENT"
