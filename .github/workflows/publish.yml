@@ -63,6 +63,29 @@ jobs:
       - name: Build release jars
         run: ./gradlew build --no-daemon --warning-mode all
 
+      - name: Publish NeoForge
+        if: ${{ inputs.platform == 'both' || inputs.platform == 'neoforge' }}
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          curseforge-id: ${{ env.CURSEFORGE_PROJECT_ID }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          modrinth-id: ${{ env.MODRINTH_PROJECT_ID }}
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          files: neoforge/build/libs/stepitup-${{ steps.props.outputs.mod_version }}-neoforge.jar
+          name: StepItUp ${{ steps.props.outputs.mod_version }} NeoForge
+          version: ${{ steps.props.outputs.mod_version }}-neoforge
+          version-type: ${{ inputs.version_type }}
+          changelog: ${{ inputs.changelog || 'Updated mod' }}
+
+          loaders: neoforge
+          game-versions: ${{ steps.props.outputs.minecraft_version }}
+          game-version-filter: none
+          java: 25
+
+          dependencies: |
+            cloth-config(required){curseforge:348521}{modrinth:9s6osm5g}
+
       - name: Publish Fabric
         if: ${{ inputs.platform == 'both' || inputs.platform == 'fabric' }}
         uses: Kir-Antipov/mc-publish@v3.3
@@ -87,26 +110,3 @@ jobs:
             fabric-api(required){curseforge:306612}{modrinth:P7dR8mSH}
             cloth-config(required){curseforge:348521}{modrinth:9s6osm5g}
             modmenu(optional){curseforge:308702}{modrinth:mOgUt4GM}
-
-      - name: Publish NeoForge
-        if: ${{ inputs.platform == 'both' || inputs.platform == 'neoforge' }}
-        uses: Kir-Antipov/mc-publish@v3.3
-        with:
-          curseforge-id: ${{ env.CURSEFORGE_PROJECT_ID }}
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          modrinth-id: ${{ env.MODRINTH_PROJECT_ID }}
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
-          files: neoforge/build/libs/stepitup-${{ steps.props.outputs.mod_version }}-neoforge.jar
-          name: StepItUp ${{ steps.props.outputs.mod_version }} NeoForge
-          version: ${{ steps.props.outputs.mod_version }}-neoforge
-          version-type: ${{ inputs.version_type }}
-          changelog: ${{ inputs.changelog || 'Updated mod' }}
-
-          loaders: neoforge
-          game-versions: ${{ steps.props.outputs.minecraft_version }}
-          game-version-filter: none
-          java: 25
-
-          dependencies: |
-            cloth-config(required){curseforge:348521}{modrinth:9s6osm5g}
